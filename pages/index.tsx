@@ -113,6 +113,8 @@ this is a code block
 
 ~~~
 this is a code block
+
+with extra space
 ~~~
 
     this is a code block (four indented spaces)
