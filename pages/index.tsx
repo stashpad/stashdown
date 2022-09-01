@@ -1,127 +1,44 @@
 import type { NextPage } from 'next';
-import React, { CSSProperties, useEffect, useState } from 'react';
-import { converter } from '../stashdown/markdownConverter';
+import React, { useState } from 'react';
+import { useCodeMirror } from '../components/useCodeMirror';
+import { Toolbar } from '../components/Toolbar';
+import { Toggler } from '../components/Toggler';
+import { TokensView } from '../components/TokensView';
+import { HTMLView } from '../components/HTMLView';
+import { RenderedView } from '../components/RenderedView';
 
 const Home: NextPage = () => {
-  const [rendered, setRendered] = useState<string>('');
+  const [tab, setTab] = useState('rendered');
+  const [text, setText] = useState('');
 
-  const update = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const text = event.currentTarget.value;
-    setRendered(converter.toHtml(text));
-  };
-
-  const resetCSS: CSSProperties = {
-    all: 'unset'
-  };
-
-  useEffect(() => {
-    setRendered(converter.toHtml(testString));
-  }, []);
+  const [ref] = useCodeMirror({
+    onChange: setText
+  });
 
   return (
-    <div className='container mx-auto'>
-      <div className='flex flex-row justify-around'>
-        <div className='flex-1 mx-2'>
-          <textarea
-            onChange={update}
-            className='border border-black w-full h-screen'
-            defaultValue={testString}
-          />
+    <div className='w-full h-full'>
+      <div className='flex h-full divide-x divide-indigo-400'>
+        <div className='w-1/2 flex flex-col'>
+          <Toolbar title='Input' />
+          <div className='flex-1 p-2' ref={ref} role={'textbox'} />
         </div>
-        <div className='flex-1 mx-2'>
-          <div
-            style={resetCSS}
-            dangerouslySetInnerHTML={{ __html: rendered }}
-          ></div>
+        <div className='w-1/2 flex flex-col'>
+          <Toolbar title='Output'>
+            <Toggler
+              current={tab}
+              options={['tokens', 'html', 'rendered']}
+              onChange={(option) => setTab(option)}
+            />
+          </Toolbar>
+          <div className='flex flex-col overflow-hidden'>
+            {tab === 'tokens' && <TokensView text={text} />}
+            {tab === 'html' && <HTMLView text={text} />}
+            {tab === 'rendered' && <RenderedView text={text} />}
+          </div>
         </div>
       </div>
     </div>
   );
 };
-
-const testString = `\
-# Header
-## Header
-### Header
-#### Header
-##### Header
-###### Header
-
-
-Header
-======
-
-Header
----
-
-some paragraph text
-
-"quoted text"
-
-'quoted text'
-
-"quotes with 'sub quotes' inside"
-
-'quotes with "sub quotes" inside'
-
-**bold text**
-__bold text__
-
-*italics text*
-_italics text_
-
-*__bold and italics__*
-_**bold and italics**_
-
-~~strikethrough~~
-
-> blockquote
-
-> nested
->> blockquote
-
-* an
-* unordered
-* list
-
-- using
-- dashes
-
-+ using
-+ plusses
-
-* item
-  * another item (2-5 spaces indented)
-    * a third
-
-1. one
-2. two
-   1. one (3 spaces required)
-   2. two
-
-* unordered
-  1. with ordered
-
-1. ordered
-   * with unordered
-
-this has a \`code span\` inside
-
-\`\`\`
-this is a code block
-\`\`\`
-
-~~~
-this is a code block
-~~~
-
-    this is a code block (four indented spaces)
-
-[link to google](www.google.com)
-
-www.google.com
-
-https://google.com
-`;
 
 export default Home;
