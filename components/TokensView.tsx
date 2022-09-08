@@ -8,6 +8,9 @@ interface TokensViewProps {
   onClickToken: (token: Token) => void;
 }
 
+/**
+ * https://github.com/markedjs/marked/issues/2134
+ */
 const walkTokens = (token: any) => {
   let subs = token.tokens || token.items;
   if (subs) {
