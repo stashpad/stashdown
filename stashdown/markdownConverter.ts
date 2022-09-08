@@ -1,4 +1,4 @@
-import { marked, Tokenizer } from 'marked';
+import { marked } from 'marked';
 import { renderLocations } from './renderLocations';
 
 export interface IMarkdownConverter {

@@ -57,5 +57,12 @@ const theme = EditorView.theme({
   },
   '&.cm-focused': {
     outline: 'none !important'
+  },
+  '.cm-content': {
+    padding: '4px 2px'
+  },
+  '.highlighted': {
+    background: '#6366f1',
+    color: 'white'
   }
 });
