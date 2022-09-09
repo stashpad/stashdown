@@ -1,7 +1,15 @@
 export const headers0 = `\
-# Header 1
+# Header
+## Header
+### Header
+#### Header
+##### Header
+###### Header
 
-## Header 2
 
-### Header 3
+Header
+======
+
+Header
+---
 `;

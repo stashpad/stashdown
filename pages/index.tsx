@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useCodeMirror } from '../components/useCodeMirror';
 import { Toolbar } from '../components/Toolbar';
 import { Toggler } from '../components/Toggler';
@@ -12,10 +12,14 @@ import {
   highlightExtension
 } from '../components/highlightExtension';
 import { kitchenSink } from '../stashdown/samples/kitchen-sink';
+import { paragraphs } from '../stashdown/samples/paragraphs';
+import { code } from '../stashdown/samples/code';
+import { headers0 } from '../stashdown/samples/headers';
 
 const Home: NextPage = () => {
   const [tab, setTab] = useState('tokens');
   const [text, setText] = useState(kitchenSink);
+  const [cursorLocation, setCursorLocation] = useState<number[]>([])
 
   const [ref, view] = useCodeMirror({
     initialText: kitchenSink,
@@ -32,6 +36,23 @@ const Home: NextPage = () => {
       });
     }
   };
+
+  
+  useEffect(() => {
+    const onCursorChange = (insert: number[]) => {
+      if (view) {
+        view.dispatch({
+          effects: highlightEffect.of([
+            highlightDecoration.range(insert[0], insert[1] ?? insert[0] + 1)
+          ])
+        });
+      }
+    };
+    console.log(cursorLocation)
+    if (cursorLocation.length) {
+      onCursorChange(cursorLocation)
+    }
+  }, [cursorLocation, view])
 
   return (
     <div className='w-full h-full'>
@@ -53,7 +74,7 @@ const Home: NextPage = () => {
               <TokensView text={text} onClickToken={onClickToken} />
             )}
             {tab === 'html' && <HTMLView text={text} />}
-            {tab === 'rendered' && <RenderedView text={text} />}
+            {tab === 'rendered' && <RenderedView text={text} setCursorLocation={setCursorLocation} />}
           </div>
         </div>
       </div>

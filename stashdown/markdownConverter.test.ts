@@ -6,6 +6,7 @@ describe('headers', () => {
   it('renders h1', () => {
     const header = '# h1 Heading'
     const result = converter.toHtml(header)
+    console.log('result', result)
     expect(result).toBe('<h1 id="h1-heading">h1 Heading</h1>\n')
   })
   it('renders h2', () => {
@@ -37,6 +38,38 @@ describe('headers', () => {
     const header = '#Heading'
     const result = converter.toHtml(header)
     expect(result).toBe('<p>#Heading</p>\n')
+  })
+})
+
+describe('spacing', () => {
+  it('one line renders a single paragraph', () => {
+    const para = 'this is a single paragraph'
+    const result = converter.toHtml(para)
+    expect(result).toBe('<p>this is a single paragraph</p>\n')
+  })
+
+  it('one new line renders a single paragraph with a line break', () => {
+    const para = 'this is a\nsingle paragraph'
+    const result = converter.toHtml(para)
+    expect(result).toBe('<p>this is a<br>single paragraph</p>\n')
+  })
+
+  it('two new lines inserts a p with an &nbsp; in it\'s own paragraph inside it', () => {
+    const para = 'this is two\n\nseparate paragraphs'
+    const result = converter.toHtml(para)
+    expect(result).toBe('<p>this is two</p>\n<p></p>\n<p>separate paragraphs</p>\n')
+  })
+
+  it('respects single newlines inside a code block', () => {
+    const para = '```\ncode\nmore code\n```'
+    const result = converter.toHtml(para)
+    expect(result).toBe('<pre><code>code\nmore code\n</code></pre>\n')
+  })
+
+  it('respects many newlines inside a code block', () => {
+    const para = '```\ncode\n\n\n\nmore code\n```'
+    const result = converter.toHtml(para)
+    expect(result).toBe('<pre><code>code\n \n \n \nmore code\n</code></pre>\n')
   })
 })
 

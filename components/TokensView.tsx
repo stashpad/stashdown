@@ -1,6 +1,5 @@
 import { marked } from '../../marked/lib/marked.esm.js';
 import Token = marked.Token;
-import { assignLocations } from '../stashdown/assignLocations';
 import { useState } from 'react';
 
 interface TokensViewProps {
@@ -11,7 +10,7 @@ interface TokensViewProps {
 /**
  * https://github.com/markedjs/marked/issues/2134
  */
-const walkTokens = (token: any) => {
+export const walkTokens = (token: any) => {
   let subs = token.tokens || token.items;
   if (subs) {
     let start = token.origin ? token.origin.start : 0;

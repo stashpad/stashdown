@@ -14,6 +14,7 @@ Header
 ---
 
 some paragraph text
+with only one newline
 
 "quoted text"
 
@@ -36,12 +37,19 @@ _**bold and italics**_
 
 > blockquote
 
+> multiline
+blockquote
+
 > nested
 >> blockquote
 
 * an
 * unordered
 * list
+
+- [ ] check1
+- [x] check2
+- [x] check3
 
 - using
 - dashes
@@ -81,4 +89,6 @@ this is a code block
 www.google.com
 
 https://google.com
+
+https://google.com and some more text and www.google.com and https://google.com
 `;
