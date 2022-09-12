@@ -1,3 +1,4 @@
+import hljs from 'highlight.js';
 import { marked, Renderer } from '../../marked/lib/marked.cjs';
 import { generateChunks } from './generateChunks';
 import { generateTokens } from './generateTokens';
@@ -11,7 +12,17 @@ marked.use({
   breaks: true,
   smartLists: true,
   smartypants: true,
-  baseUrl: 'https://'
+  baseUrl: 'https://',
+});
+
+marked.setOptions({
+  highlight: function(code: string, lang: string, callback: Function) {
+    if (lang) {
+      return hljs.highlight(lang, code).value
+    }
+    // highlight auto?
+    return code
+  }
 });
 
 const toHtml = (markdown: string): string => {

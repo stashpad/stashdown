@@ -13,16 +13,26 @@ import {
 } from '../components/highlightExtension';
 import { kitchenSink } from '../stashdown/samples/kitchen-sink';
 import { paragraphs } from '../stashdown/samples/paragraphs';
-import { code } from '../stashdown/samples/code';
+import { code, complicatedFunction } from '../stashdown/samples/code';
 import { headers0 } from '../stashdown/samples/headers';
+import { lists } from '../stashdown/samples/lists';
+
+const samples = [
+  { name: 'Kitchen Sink', value: kitchenSink },
+  { name: 'Paragraphs', value: paragraphs },
+  { name: 'Code', value: code },
+  { name: 'Code Function', value: complicatedFunction },
+  { name: 'Headers', value: headers0 },
+  { name: 'Lists', value: lists },
+]
 
 const Home: NextPage = () => {
   const [tab, setTab] = useState('tokens');
-  const [text, setText] = useState(kitchenSink);
+  const [text, setText] = useState(code);
   const [cursorLocation, setCursorLocation] = useState<number[]>([])
 
   const [ref, view] = useCodeMirror({
-    initialText: kitchenSink,
+    initialText: text,
     onChange: setText,
     extensions: [highlightExtension]
   });
@@ -37,7 +47,6 @@ const Home: NextPage = () => {
     }
   };
 
-  
   useEffect(() => {
     const onCursorChange = (insert: number[]) => {
       if (view) {
@@ -48,15 +57,36 @@ const Home: NextPage = () => {
         });
       }
     };
-    console.log(cursorLocation)
     if (cursorLocation.length) {
       onCursorChange(cursorLocation)
     }
   }, [cursorLocation, view])
 
+  const onSampleClick = (sample: typeof samples[0]) => {
+    if (view)
+    view.dispatch({
+      changes: {
+        from: 0,
+        to: view.state.doc.length,
+        insert: sample.value,
+      },
+    })
+  }
+
   return (
     <div className='w-full h-full'>
       <div className='flex h-full divide-x divide-indigo-400'>
+        <div className='w-1/8 flex flex-col'>
+          <Toolbar title='Samples' />
+          {
+            samples.map(s => {
+              return <div key={s.name} onClick={() => {
+                setText(s.value)
+                onSampleClick(s)
+              }}>{s.name}</div>
+            })
+          }
+        </div>
         <div className='w-1/2 flex flex-col'>
           <Toolbar title='Input' />
           <div className='flex-1 overflow-hidden' ref={ref} role={'textbox'} />

@@ -21,8 +21,6 @@ function generateChunks(text: string): string[] {
       }
     }
 
-    console.log()
-
     if (current.length) chunks.push(current.join('\n'));
   
     return chunks;

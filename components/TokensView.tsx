@@ -28,7 +28,6 @@ export const walkTokens = (token: any) => {
 
 const TokensView = (props: TokensViewProps) => {
   const [selected, setSelected] = useState<number | undefined>(undefined);
-  console.log(selected);
 
   const tokens = marked.lexer(props.text);
   marked.walkTokens([{ tokens, raw: props.text }], walkTokens);

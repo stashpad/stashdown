@@ -1,30 +1,56 @@
 const findAncestor = (el: Node) => {
-  // @ts-ignore
-  while ((el = el.parentNode) && !(el as HTMLElement).dataset?.['originStart']);
+  while ((el.parentNode) && !(el as HTMLElement).dataset?.['originStart']) {
+    el = el.parentNode
+  };
   return el;
 }
 
+const findNumberOfListAncestors = (el: Node) => {
+  let count = 0
+  while ((el.parentNode)) {
+    if (el.nodeName === 'UL' || el.nodeName === 'OL') count++
+    el = el.parentNode
+  };
+  return count
+}
+
+const findAncestorByType = (el: Node, type: string) => {
+  while ((el.parentNode)) {
+    if (el.nodeName === type) return el
+    el = el.parentNode
+  };
+  return null
+}
+
 const adjustByParentType = (node: Node) => {
-  console.log('node', node.nodeName)
   const dataset = (node as HTMLElement).dataset
-  console.log('dataset', dataset)
   if (node.nodeName === 'STRONG') return 2
   if (node.nodeName === 'EM') return 1
   if (node.nodeName === 'DEL') return 2
 
   if (node.nodeName === 'PRE') {
-    return 4 // TODO: + lang length
+    const codeBlock = Array.from(node.childNodes).find(n => n.nodeName === 'CODE')
+    const lang = Array.from((codeBlock as HTMLElement).classList).find(x => x.includes('language'))
+    if (codeBlock && lang) {
+      return 4 + ((lang.split('-')[1]).length ?? 0)
+    }
+    return 4
+  }
+
+  if (node.nodeName === 'CODE') {
+    return 1
   }
   
   // check parents for nesting level? nested lists sometimes return -1
   if (node.nodeName === 'LI') {
+    const isOrdered = findAncestorByType(node, 'OL')
+    const isChecklist = Array.from(node.childNodes).find(x => x.nodeName === 'INPUT')
+    const typeAdjustAmount = isChecklist ? 6 : isOrdered ? 3 : 2
 
-    // does li contain an input?
-    if (Array.from(node.childNodes).find(x => x.nodeName === 'INPUT')) {
-      return 5
-    }
+    const ancestorCount = Math.max(0, findNumberOfListAncestors(node) - 1)
+    const ancestorAdjustment = ancestorCount * typeAdjustAmount + (ancestorCount ? 2 : 0)
 
-    return 2
+    return typeAdjustAmount + ancestorAdjustment
   }
 
   if (dataset?.hashHeader === 'false') return 0
@@ -37,19 +63,38 @@ const adjustByParentType = (node: Node) => {
   return 0
 }
 
-export const calculateAndSetClickPosition = (e: React.MouseEvent<HTMLElement>, isDoubleClick: boolean) => {
+/**
+ * Recursively get all text nodes
+ * @param node 
+ * @returns 
+ */
+const getAllTextNodesWithin = (node: Node) => {
+  const textNodes: Node[] = []
+
+  if (node.hasChildNodes()) {
+    Array.from(node.childNodes).forEach(n => {
+      const nodes = getAllTextNodesWithin(n)
+      textNodes.push(...nodes)
+    })
+  } else if (node.nodeType === 3) {
+    textNodes.push(node)
+  }
+
+  return textNodes
+}
+
+/**
+ * This is just a sample function for testing. It could be implemented in the app so it is byte aware
+ */
+export const calculateClickPosition = (e: React.MouseEvent<HTMLElement>, isDoubleClick: boolean) => {
   let insertionLocation = 0 // todo: byte.length?
-  console.log('target', e.target)
-  // console.log
   if ((e.target as HTMLElement).tagName.toLowerCase() === 'a') return
 
   const selection = window.getSelection()
   if (!selection) return
   const focusNode = selection.focusNode
-  console.log('focusNode', focusNode, selection)
 
   const selectionStart = isDoubleClick ? selection.anchorOffset : selection.focusOffset
-  console.log('selection start', selectionStart)
 
   const selectionLength = selection.focusOffset - selectionStart
 
@@ -63,24 +108,30 @@ export const calculateAndSetClickPosition = (e: React.MouseEvent<HTMLElement>, i
   if (focusNode.nodeType === 3) {
     // get starting position depending on single or double click
     // search target for matching inner text
-    const validAncestor = findAncestor(focusNode)
-    const adjustment = adjustByParentType(validAncestor)
-
+    let validAncestor = findAncestor(focusNode)
+    if (validAncestor.parentNode?.nodeName === 'LI') {
+      validAncestor = validAncestor.parentNode
+    }
+    
     const dataset = (validAncestor as HTMLElement).dataset
     if (dataset.originStart) {
-      let childrenWithinAncestor = Array.from(validAncestor.childNodes)
-      if (validAncestor.nodeName === 'PRE') {
-        childrenWithinAncestor = Array.from(validAncestor.firstChild?.childNodes ?? [])
+      // debugger
+      const adjustment = adjustByParentType(validAncestor)
+      let textNodesWithinAncestor = getAllTextNodesWithin(validAncestor)
+
+      if (validAncestor.nodeName === 'LI') {
+        insertionLocation = parseInt(dataset.originStart) + selectionStart + adjustment
+        return [insertionLocation]
       }
 
-      const focusNodeIndexInChildren = childrenWithinAncestor.indexOf(focusNode as ChildNode)
+      const focusNodeIndexInChildren = textNodesWithinAncestor.indexOf(focusNode as ChildNode)
       if (focusNodeIndexInChildren < 0) {
         return [insertionLocation]
       }
 
       let prevChildrenLength = 0
       if (focusNodeIndexInChildren > 0) {
-        const allLengths = childrenWithinAncestor.slice(0, focusNodeIndexInChildren).map(x => x.textContent?.length).filter(x => !!x) as number[]
+        const allLengths = textNodesWithinAncestor.slice(0, focusNodeIndexInChildren).map(x => x.textContent?.length).filter(x => !!x) as number[]
         if (allLengths.length) prevChildrenLength = allLengths.reduce((acc, val) => acc += val) ?? 0
       }
 

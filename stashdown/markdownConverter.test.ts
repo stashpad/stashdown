@@ -6,7 +6,6 @@ describe('headers', () => {
   it('renders h1', () => {
     const header = '# h1 Heading'
     const result = converter.toHtml(header)
-    console.log('result', result)
     expect(result).toBe('<h1 id="h1-heading">h1 Heading</h1>\n')
   })
   it('renders h2', () => {

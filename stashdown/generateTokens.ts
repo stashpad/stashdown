@@ -23,7 +23,7 @@ function generateTokens(text: string, chunks: string[]) {
       tokens.push(...lexer(chunk));
     }
   });
-  // @ts-ignore
+
   marked.walkTokens([{ tokens, raw: text }], assignOrigin);
   return tokens;
 }
@@ -39,6 +39,12 @@ function assignOrigin(token: LocatedToken) {
     let subpos = 0;
     subs.forEach((sub: LocatedToken) => {
       let substart = token.raw.indexOf(sub.raw, subpos);
+      if (substart === -1) {
+        // whitespace insensitive compare for nested lists
+        const tokenNoSpaces = token.raw.replaceAll(/\s/g, '')
+        const subNoSpaces = sub.raw.replaceAll(/\s/g, '')
+        substart = tokenNoSpaces.indexOf(subNoSpaces, 0)
+      }
       let sublen = sub.raw.length;
       sub.origin = {
         start: substart + start,
