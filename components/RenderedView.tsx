@@ -1,6 +1,5 @@
 import React from 'react';
 import { marked } from '../../marked/lib/marked.cjs';
-import { assignLocations } from '../stashdown/assignLocations';
 import { converter } from '../stashdown/markdownConverter';
 import { calculateAndSetClickPosition } from '../stashdown/utils';
 

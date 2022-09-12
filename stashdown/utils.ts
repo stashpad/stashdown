@@ -1,38 +1,3 @@
-// const isListItem = (line: string): boolean => {
-//   const orderedRegex = /^(\s*)(\d+\.\s+)(.*)/;
-//   const unorderedRegex = /^(\s*)([-*])(.*)/;
-//   return orderedRegex.test(line) || unorderedRegex.test(line);
-// };
-
-// export const respectNewlinesInCodeAndPlainText = (text: string) => {
-//   const result = text.replace(/(\n{2,})/g, (_, p1, offset) => {
-//     const substringBefore = text.substring(0, offset);
-//     const tripleBackTicksExist = substringBefore.match(/```|~~~/g);
-
-//     // check if we need to also include a newline
-//     const prevLines = substringBefore.split(/\n/);
-//     const lastLine = prevLines.pop();
-//     const additionalWhitespace = lastLine && isListItem(lastLine) ? '\n' : '';
-
-//     // check if we're in a code block
-//     const hasOddNumberOfTripleBackTicksBefore =
-//       tripleBackTicksExist && tripleBackTicksExist.length % 2 === 1;
-//     // respect plain whitespace if in a code block, add NBSP if in plain text
-//     const whitespace = hasOddNumberOfTripleBackTicksBefore
-//       ? ' '
-//       : '<p>\u00A0</p>\n' + additionalWhitespace;
-    
-//     // console.log('output', p1.length, Array(p1.length).fill('\n').join(whitespace))
-//     const final =  Array(p1.length).fill('\n').join(whitespace)
-//     if (p1.length !== final.length) {
-//       console.log(`inserting ${final.length - p1.length} chars at ${offset} position`)
-//     }
-//     return final;
-//   });
-//   // console.log('text after', result)
-//   return result;
-// };
-
 const findAncestor = (el: Node) => {
   // @ts-ignore
   while ((el = el.parentNode) && !(el as HTMLElement).dataset?.['originStart']);
