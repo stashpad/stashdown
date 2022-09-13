@@ -8,7 +8,7 @@ function generateChunks(text) {
     var insideCodeBlock = false;
     for (var i = 0; i < lines.length; ++i) {
         var line = lines[i];
-        if (line.match(/^(```|~~~|    )/)) {
+        if (line.match(/^(```|~~~)/)) {
             insideCodeBlock = !insideCodeBlock;
         }
         if (line.length > 0 || insideCodeBlock) {

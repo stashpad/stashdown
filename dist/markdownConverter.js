@@ -1,6 +1,6 @@
 "use strict";
 exports.__esModule = true;
-exports.converter = void 0;
+exports.basicConverter = exports.converter = void 0;
 var highlight_js_1 = require("highlight.js");
 var marked_1 = require("marked");
 var generateChunks_1 = require("./generateChunks");
@@ -29,7 +29,20 @@ var toHtml = function (markdown) {
     var html = marked_1.marked.parser(tokens, { renderer: renderer });
     return html;
 };
+var noOrigintoHtml = function (markdown) {
+    // const noTabs = markdown.replaceAll(/\t/g, '    ')
+    var chunks = (0, generateChunks_1.generateChunks)(markdown);
+    var tokens = (0, generateTokens_1.generateTokens)(markdown, chunks);
+    // @ts-ignore
+    var renderer = new marked_1.Renderer({ includeOrigin: false });
+    var html = marked_1.marked.parser(tokens, { renderer: renderer });
+    return html;
+};
 var converter = {
     toHtml: toHtml
 };
 exports.converter = converter;
+var basicConverter = {
+    toHtml: noOrigintoHtml
+};
+exports.basicConverter = basicConverter;

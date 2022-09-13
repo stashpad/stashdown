@@ -34,8 +34,26 @@ const toHtml = (markdown: string): string => {
   return html
 };
 
+const noOrigintoHtml = (markdown: string): string => {
+  // const noTabs = markdown.replaceAll(/\t/g, '    ')
+  const chunks = generateChunks(markdown);
+  const tokens = generateTokens(markdown, chunks);
+  // @ts-ignore
+  const renderer = new Renderer({ includeOrigin: false })
+  const html = marked.parser(tokens, { renderer });
+  return html
+};
+
 const converter: IMarkdownConverter = {
   toHtml
 };
 
 export { converter };
+
+const basicConverter: IMarkdownConverter = {
+  toHtml: noOrigintoHtml
+};
+
+export { basicConverter };
+
+
