@@ -25,7 +25,7 @@ marked.setOptions({
 });
 
 const toHtml = (markdown: string): string => {
-  const noTabs = markdown.replaceAll(/\t/, '    ')
+  const noTabs = markdown.replaceAll(/\t/g, '    ')
   const chunks = generateChunks(noTabs);
   const tokens = generateTokens(noTabs, chunks);
   debugger

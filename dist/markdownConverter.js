@@ -21,7 +21,7 @@ marked_1.marked.setOptions({
     }
 });
 var toHtml = function (markdown) {
-    var noTabs = markdown.replaceAll(/\t/, '    ');
+    var noTabs = markdown.replaceAll(/\t/g, '    ');
     var chunks = (0, generateChunks_1.generateChunks)(noTabs);
     var tokens = (0, generateTokens_1.generateTokens)(noTabs, chunks);
     debugger;
