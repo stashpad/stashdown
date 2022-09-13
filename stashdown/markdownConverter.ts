@@ -25,8 +25,10 @@ marked.setOptions({
 });
 
 const toHtml = (markdown: string): string => {
-  const chunks = generateChunks(markdown);
-  const tokens = generateTokens(markdown, chunks);
+  const noTabs = markdown.replaceAll(/\t/, '    ')
+  const chunks = generateChunks(noTabs);
+  const tokens = generateTokens(noTabs, chunks);
+  debugger
   // @ts-ignore
   const renderer = new Renderer({ includeOrigin: true })
   const html = marked.parser(tokens, { renderer });

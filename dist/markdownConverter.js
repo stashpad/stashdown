@@ -21,8 +21,10 @@ marked_1.marked.setOptions({
     }
 });
 var toHtml = function (markdown) {
-    var chunks = (0, generateChunks_1.generateChunks)(markdown);
-    var tokens = (0, generateTokens_1.generateTokens)(markdown, chunks);
+    var noTabs = markdown.replaceAll(/\t/, '    ');
+    var chunks = (0, generateChunks_1.generateChunks)(noTabs);
+    var tokens = (0, generateTokens_1.generateTokens)(noTabs, chunks);
+    debugger;
     // @ts-ignore
     var renderer = new marked_1.Renderer({ includeOrigin: true });
     var html = marked_1.marked.parser(tokens, { renderer: renderer });

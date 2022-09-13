@@ -114,6 +114,8 @@ export const calculateClickPosition = (e: React.MouseEvent<HTMLElement>, isDoubl
     }
     
     const dataset = (validAncestor as HTMLElement).dataset
+    if (!dataset) return [insertionLocation]
+
     if (dataset.originStart) {
       // debugger
       const adjustment = adjustByParentType(validAncestor)

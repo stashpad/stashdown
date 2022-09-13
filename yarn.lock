@@ -3051,9 +3051,9 @@ makeerror@1.0.12:
   dependencies:
     tmpl "1.0.5"
 
-marked@stashpad/marked#7011b76:
+marked@stashpad/marked#fdc0a3e:
   version "4.1.0"
-  resolved "https://codeload.github.com/stashpad/marked/tar.gz/7011b766a853c95a44e1acd67e9acc391adc4405"
+  resolved "https://codeload.github.com/stashpad/marked/tar.gz/fdc0a3e1a3a172c2ebb32a3930dd652fef9b4b37"
 
 merge-stream@^2.0.0:
   version "2.0.0"
