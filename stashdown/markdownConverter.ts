@@ -28,7 +28,6 @@ const toHtml = (markdown: string): string => {
   const noTabs = markdown.replaceAll(/\t/g, '    ')
   const chunks = generateChunks(noTabs);
   const tokens = generateTokens(noTabs, chunks);
-  debugger
   // @ts-ignore
   const renderer = new Renderer({ includeOrigin: true })
   const html = marked.parser(tokens, { renderer });
