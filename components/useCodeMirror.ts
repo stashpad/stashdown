@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useState } from 'react';
 import { EditorView, ViewUpdate } from '@codemirror/view';
 import { EditorState, Extension } from '@codemirror/state';

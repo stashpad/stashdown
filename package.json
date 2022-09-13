@@ -2,6 +2,7 @@
   "name": "stashdown",
   "version": "0.1.0",
   "private": true,
+  "main": "./stashdown/index",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -13,13 +14,14 @@
     "@codemirror/state": "^6.1.1",
     "@codemirror/view": "^6.2.2",
     "highlight.js": "^11.6.0",
-    "marked": "../marked",
+    "marked": "stashpad/marked#7011b76",
     "next": "12.2.5",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.4",
+    "@types/marked": "^4.0.7",
     "@types/node": "18.7.14",
     "@types/react": "18.0.18",
     "@types/react-dom": "18.0.6",

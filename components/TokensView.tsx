@@ -1,4 +1,4 @@
-import { marked } from '../../marked/lib/marked.esm.js';
+import { marked } from 'marked';
 import Token = marked.Token;
 import { useState } from 'react';
 
@@ -30,6 +30,7 @@ const TokensView = (props: TokensViewProps) => {
   const [selected, setSelected] = useState<number | undefined>(undefined);
 
   const tokens = marked.lexer(props.text);
+  // @ts-ignore
   marked.walkTokens([{ tokens, raw: props.text }], walkTokens);
   return (
     <div className='flex flex-col space-y-2 p-2 overflow-y-auto'>

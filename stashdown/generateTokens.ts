@@ -1,4 +1,4 @@
-import { marked } from '../../marked/lib/marked.cjs';
+import { marked } from 'marked';
 import Token = marked.Token;
 
 type LocatedToken = Token & {
@@ -24,6 +24,7 @@ function generateTokens(text: string, chunks: string[]) {
     }
   });
 
+  // @ts-ignore
   marked.walkTokens([{ tokens, raw: text }], assignOrigin);
   return tokens;
 }

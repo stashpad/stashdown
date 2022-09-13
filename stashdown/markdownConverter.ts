@@ -1,5 +1,5 @@
 import hljs from 'highlight.js';
-import { marked, Renderer } from '../../marked/lib/marked.cjs';
+import { marked, Renderer } from 'marked';
 import { generateChunks } from './generateChunks';
 import { generateTokens } from './generateTokens';
 
@@ -16,7 +16,7 @@ marked.use({
 });
 
 marked.setOptions({
-  highlight: function(code: string, lang: string, callback: Function) {
+  highlight: function(code: string, lang: string, callback: ((error: any, code?: string | undefined) => void)) {
     if (lang) {
       return hljs.highlight(lang, code).value
     }
@@ -27,7 +27,9 @@ marked.setOptions({
 const toHtml = (markdown: string): string => {
   const chunks = generateChunks(markdown);
   const tokens = generateTokens(markdown, chunks);
-  const html = marked.parser(tokens, { renderer: new Renderer({ includeOrigin: true })});
+  // @ts-ignore
+  const renderer = new Renderer({ includeOrigin: true })
+  const html = marked.parser(tokens, { renderer });
   return html
 };
 
