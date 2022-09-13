@@ -4,5 +4,5 @@ Stashpad markdown.
 
 # Things to implement
 
-* Respect newlines in code and plaintext
+~~* Respect newlines in code and plaintext~~
 * Syntax highlighting

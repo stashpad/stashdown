@@ -20,7 +20,6 @@ marked.setOptions({
     if (lang) {
       return hljs.highlight(lang, code).value
     }
-    // highlight auto?
     return code
   }
 });
