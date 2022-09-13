@@ -35,6 +35,7 @@ function assignOrigin(token) {
         subs.forEach(function (sub) {
             var substart = token.raw.indexOf(sub.raw, subpos_1);
             if (substart === -1) {
+                console.warn('Token not found', token.raw, sub.raw, 'are not equal');
                 // whitespace insensitive compare for nested lists
                 var tokenNoSpaces = token.raw.replaceAll(/\s/g, '');
                 var subNoSpaces = sub.raw.replaceAll(/\s/g, '');

@@ -41,6 +41,7 @@ function assignOrigin(token: LocatedToken) {
     subs.forEach((sub: LocatedToken) => {
       let substart = token.raw.indexOf(sub.raw, subpos);
       if (substart === -1) {
+        console.warn('Token not found', token.raw, sub.raw, 'are not equal')
         // whitespace insensitive compare for nested lists
         const tokenNoSpaces = token.raw.replaceAll(/\s/g, '')
         const subNoSpaces = sub.raw.replaceAll(/\s/g, '')
