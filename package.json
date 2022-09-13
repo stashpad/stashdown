@@ -2,9 +2,10 @@
   "name": "stashdown",
   "version": "0.1.0",
   "private": true,
-  "main": "./stashdown/index",
+  "main": "./dist/index.js",
   "scripts": {
     "dev": "next dev",
+    "compile": "tsc ./stashdown/index.ts --outDir ./dist --lib es2021",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
