@@ -13,9 +13,9 @@ marked_1.marked.use({
     baseUrl: 'https://'
 });
 marked_1.marked.setOptions({
-    highlight: function (code, lang, callback) {
+    highlight: function (code, lang) {
         if (lang) {
-            return highlight_js_1["default"].highlight(lang, code).value;
+            return highlight_js_1["default"].highlight(code, { language: lang }).value;
         }
         return code;
     }
@@ -30,7 +30,6 @@ var toHtml = function (markdown) {
     return html;
 };
 var noOrigintoHtml = function (markdown) {
-    // const noTabs = markdown.replaceAll(/\t/g, '    ')
     var chunks = (0, generateChunks_1.generateChunks)(markdown);
     var tokens = (0, generateTokens_1.generateTokens)(markdown, chunks);
     // @ts-ignore

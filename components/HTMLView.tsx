@@ -1,3 +1,4 @@
+import { limitedConverter } from '../stashdown';
 import { converter } from '../stashdown/markdownConverter';
 
 interface HTMLViewProps {

@@ -16,9 +16,9 @@ marked.use({
 });
 
 marked.setOptions({
-  highlight: function(code: string, lang: string, callback: ((error: any, code?: string | undefined) => void)) {
+  highlight: function(code: string, lang: string) {
     if (lang) {
-      return hljs.highlight(lang, code).value
+      return hljs.highlight(code, { language: lang}).value
     }
     return code
   }
@@ -35,7 +35,6 @@ const toHtml = (markdown: string): string => {
 };
 
 const noOrigintoHtml = (markdown: string): string => {
-  // const noTabs = markdown.replaceAll(/\t/g, '    ')
   const chunks = generateChunks(markdown);
   const tokens = generateTokens(markdown, chunks);
   // @ts-ignore

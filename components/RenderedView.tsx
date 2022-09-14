@@ -1,4 +1,5 @@
 import React from 'react';
+import { limitedConverter } from '../stashdown';
 import { converter } from '../stashdown/markdownConverter';
 import { calculateClickPosition } from '../stashdown/utils';
 
