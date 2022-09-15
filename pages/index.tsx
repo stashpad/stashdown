@@ -16,11 +16,13 @@ import { paragraphs } from '../stashdown/samples/paragraphs';
 import { code, complicatedFunction } from '../stashdown/samples/code';
 import { headers0 } from '../stashdown/samples/headers';
 import { lists } from '../stashdown/samples/lists';
+import { links } from '../stashdown/samples/links';
 
 const samples = [
   { name: 'Kitchen Sink', value: kitchenSink },
   { name: 'Paragraphs', value: paragraphs },
   { name: 'Code', value: code },
+  { name: 'Links', value: links },
   { name: 'Code Function', value: complicatedFunction },
   { name: 'Headers', value: headers0 },
   { name: 'Lists', value: lists },
@@ -28,7 +30,7 @@ const samples = [
 
 const Home: NextPage = () => {
   const [tab, setTab] = useState('tokens');
-  const [text, setText] = useState(code);
+  const [text, setText] = useState(links);
   const [cursorLocation, setCursorLocation] = useState<number[]>([])
 
   const [ref, view] = useCodeMirror({
