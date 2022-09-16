@@ -17,10 +17,16 @@ marked.use({
 
 marked.setOptions({
   highlight: function(code: string, lang: string) {
-    if (lang) {
-      return hljs.highlight(code, { language: lang}).value
+    try {
+      if (lang) {
+        return hljs.highlight(code, { language: lang }).value
+      }
+      return code
+    } catch (e) {
+      console.error(e)
+      // return code as is if there was an error
+      return code
     }
-    return code
   }
 });
 
