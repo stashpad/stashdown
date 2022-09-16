@@ -14,10 +14,17 @@ marked_1.marked.use({
 });
 marked_1.marked.setOptions({
     highlight: function (code, lang) {
-        if (lang) {
-            return highlight_js_1["default"].highlight(code, { language: lang }).value;
+        try {
+            if (lang) {
+                return highlight_js_1["default"].highlight(code, { language: lang }).value;
+            }
+            return code;
         }
-        return code;
+        catch (e) {
+            console.error(e);
+            // return code as is if there was an error
+            return code;
+        }
     }
 });
 var toHtml = function (markdown) {
