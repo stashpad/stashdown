@@ -1,6 +1,6 @@
 import { describe, it } from "vitest";
 import { expect } from "expect";
-import { basicConverter } from "./markdownConverter";
+import { basicConverter, converter } from "./markdownConverter";
 
 describe('headers', () => {
   it('renders h1', () => {
@@ -69,6 +69,16 @@ describe('spacing', () => {
     const para = '```\ncode\n\n\n\nmore code\n```'
     const result = basicConverter.toHtml(para)
     expect(result).toBe('<pre><code>code\n\n\n\nmore code\n</code></pre>\n')
+  })
+})
+
+describe('quotes', () => {
+  it('does not return funny quotes', () => {
+    const para = '"here we go"'
+    const result = basicConverter.toHtml(para)
+    // Example of disallowed
+    // <p><span>“here we go”</span></p>
+    expect(result).toBe('<p><span>"here we go"</span></p>\n')
   })
 })
 

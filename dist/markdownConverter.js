@@ -33,7 +33,9 @@ var toHtml = function (markdown) {
     var tokens = (0, generateTokens_1.generateTokens)(noTabs, chunks);
     // @ts-ignore
     var renderer = new marked_1.Renderer({ includeOrigin: true });
-    var html = marked_1.marked.parser(tokens, { renderer: renderer });
+    var html = marked_1.marked.parser(tokens, { renderer: renderer })
+        .replace(/[\u2018\u2019]/g, "'")
+        .replace(/[\u201C\u201D]/g, '"');
     return html;
 };
 var noOrigintoHtml = function (markdown) {
@@ -41,7 +43,9 @@ var noOrigintoHtml = function (markdown) {
     var tokens = (0, generateTokens_1.generateTokens)(markdown, chunks);
     // @ts-ignore
     var renderer = new marked_1.Renderer({ includeOrigin: false });
-    var html = marked_1.marked.parser(tokens, { renderer: renderer });
+    var html = marked_1.marked.parser(tokens, { renderer: renderer })
+        .replace(/[\u2018\u2019]/g, "'")
+        .replace(/[\u201C\u201D]/g, '"');
     return html;
 };
 var converter = {

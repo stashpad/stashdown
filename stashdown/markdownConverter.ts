@@ -36,7 +36,9 @@ const toHtml = (markdown: string): string => {
   const tokens = generateTokens(noTabs, chunks);
   // @ts-ignore
   const renderer = new Renderer({ includeOrigin: true })
-  const html = marked.parser(tokens, { renderer });
+  const html = marked.parser(tokens, { renderer })
+  .replace(/[\u2018\u2019]/g, "'")
+  .replace(/[\u201C\u201D]/g, '"');
   return html
 };
 
@@ -45,7 +47,9 @@ const noOrigintoHtml = (markdown: string): string => {
   const tokens = generateTokens(markdown, chunks);
   // @ts-ignore
   const renderer = new Renderer({ includeOrigin: false })
-  const html = marked.parser(tokens, { renderer });
+  const html = marked.parser(tokens, { renderer })
+  .replace(/[\u2018\u2019]/g, "'")
+  .replace(/[\u201C\u201D]/g, '"');
   return html
 };
 
