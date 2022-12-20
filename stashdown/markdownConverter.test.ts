@@ -73,12 +73,30 @@ describe('spacing', () => {
 })
 
 describe('quotes', () => {
-  it('does not return funny quotes', () => {
+  it('does not convert to smart quotes', () => {
     const para = '"here we go"'
     const result = basicConverter.toHtml(para)
-    // Example of disallowed
+    // Example of disallowed conversion output
     // <p><span>“here we go”</span></p>
-    expect(result).toBe('<p><span>"here we go"</span></p>\n')
+    expect(result).toBe('<p><span>&quot;here we go&quot;</span></p>\n')
+  })
+
+  it('does not convert to single smart quotes', () => {
+    const para = '\'here we go\''
+    const result = basicConverter.toHtml(para)
+    expect(result).toBe('<p><span>&#39;here we go&#39;</span></p>\n')
+  })
+
+  it('returns smart quotes if specified by user', () => {
+    const para = '“here we go”'
+    const result = basicConverter.toHtml(para)
+    expect(result).toBe('<p><span>“here we go”</span></p>\n')
+  })
+
+  it('returns single smart quotes if specified by user', () => {
+    const para = '‘here we go’'
+    const result = basicConverter.toHtml(para)
+    expect(result).toBe('<p><span>‘here we go’</span></p>\n')
   })
 })
 

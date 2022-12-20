@@ -31,8 +31,6 @@ const toHtml = (markdown: string): string => {
   // @ts-ignore
   const renderer = new Renderer({ includeOrigin: true })
   const html = marked.parser(tokens, { renderer })
-  .replace(/[\u2018\u2019]/g, "'")
-  .replace(/[\u201C\u201D]/g, '"');
   return html
 };
 
