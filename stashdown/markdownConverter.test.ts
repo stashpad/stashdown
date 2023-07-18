@@ -100,6 +100,17 @@ describe('quotes', () => {
   })
 })
 
+describe('emojis', () => {
+  it.only('renders an emoji', () => {
+    const para = 'cool :sunglasses:'
+    const result = basicConverter.toHtml(para)
+    // Example of disallowed conversion output
+    // <p><span>“here we go”</span></p>
+    expect(result).toBe('<p><span>cool 😎</span></p>\n')
+  })
+
+})
+
 // /* eslint-disable jest/no-disabled-tests */
 // import { basicConverter } from '../renderer/utils/markdown/markdown'
 //
