@@ -24,23 +24,18 @@ export const emojiExtension: marked.TokenizerExtension & marked.RendererExtensio
   tokenizer: (src: string): EmojiToken | undefined => {
     const match = tokenizerRule.exec(src);
     if (!match) return
-    console.log('MATCH', match)
 
     const name = match[1];
     const emojiData = emojiDict[name];
 
-    const obj = {
+    return {
       type: 'emoji',
       raw: match[0],
-      emoji: 'bla',
       id: emojiData.id,
       char: emojiData.skins[0].native,
     };
-    console.log('TOKENIZER OBJ', obj)
-    return obj
   },
   renderer(this: RendererThis, token: EmojiToken) {
-    console.log('RENDERER')
-    return `<span>${token.char as string}</span>`
+    return `<emoji>${token.char as string}</emoji>`
   }
 }
