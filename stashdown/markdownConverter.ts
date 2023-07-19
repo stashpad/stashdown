@@ -37,7 +37,7 @@ const toHtml = (markdown: string): string => {
   const tokens = generateTokens(noTabs, chunks);
   // @ts-ignore
   const renderer = new Renderer({ includeOrigin: true })
-  const html = marked.parser(tokens, { renderer });
+  const html = marked.parser(tokens, { ...marked.defaults, renderer });
   return html
 };
 
@@ -46,7 +46,7 @@ const noOrigintoHtml = (markdown: string): string => {
   const tokens = generateTokens(markdown, chunks);
   // @ts-ignore
   const renderer = new Renderer({ includeOrigin: false })
-  const html = marked.parser(tokens, { renderer }); // TODO: emojis work without this options object.
+  const html = marked.parser(tokens, { ...marked.defaults, renderer });
   return html
 };
 
