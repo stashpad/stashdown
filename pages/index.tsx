@@ -17,6 +17,7 @@ import { code, complicatedFunction } from '../stashdown/samples/code';
 import { headers0 } from '../stashdown/samples/headers';
 import { lists } from '../stashdown/samples/lists';
 import { links } from '../stashdown/samples/links';
+import {emojis} from "../stashdown/samples/emojis";
 
 const samples = [
   { name: 'Kitchen Sink', value: kitchenSink },
@@ -26,6 +27,7 @@ const samples = [
   { name: 'Code Function', value: complicatedFunction },
   { name: 'Headers', value: headers0 },
   { name: 'Lists', value: lists },
+  { name: 'Emojis', value: emojis },
 ]
 
 const Home: NextPage = () => {

@@ -9,11 +9,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "vitest --ui"
+    "test": "vitest"
   },
   "dependencies": {
     "@codemirror/state": "^6.1.1",
     "@codemirror/view": "^6.2.2",
+    "@emoji-mart/data": "^1.1.2",
     "highlight.js": "^11.6.0",
     "marked": "stashpad/marked#f784fb8",
     "next": "12.2.5",

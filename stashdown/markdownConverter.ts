@@ -2,6 +2,7 @@ import hljs from 'highlight.js';
 import { marked, Renderer } from 'marked';
 import { generateChunks } from './generateChunks';
 import { generateTokens } from './generateTokens';
+import {emojiExtension} from "./emojiExtension";
 
 export interface IMarkdownConverter {
   toHtml(markdown: string): string;
@@ -12,6 +13,7 @@ marked.use({
   breaks: true,
   smartLists: true,
   baseUrl: 'https://',
+  extensions: [emojiExtension],
 });
 
 marked.setOptions({
@@ -35,7 +37,7 @@ const toHtml = (markdown: string): string => {
   const tokens = generateTokens(noTabs, chunks);
   // @ts-ignore
   const renderer = new Renderer({ includeOrigin: true })
-  const html = marked.parser(tokens, { renderer });
+  const html = marked.parser(tokens, { ...marked.defaults, renderer });
   return html
 };
 
@@ -44,7 +46,7 @@ const noOrigintoHtml = (markdown: string): string => {
   const tokens = generateTokens(markdown, chunks);
   // @ts-ignore
   const renderer = new Renderer({ includeOrigin: false })
-  const html = marked.parser(tokens, { renderer });
+  const html = marked.parser(tokens, { ...marked.defaults, renderer });
   return html
 };
 
@@ -59,5 +61,3 @@ const basicConverter: IMarkdownConverter = {
 };
 
 export { basicConverter };
-
-
