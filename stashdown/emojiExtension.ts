@@ -1,4 +1,4 @@
-import data from '@emoji-mart/data'
+import * as data from '@emoji-mart/data'
 import {marked} from "marked";
 import RendererThis = marked.RendererThis;
 
